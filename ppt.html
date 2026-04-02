@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>행렬과 행렬식 탐구 발표</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/white.min.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        .reveal {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        
+        .reveal .slides {
+            text-align: left;
+        }
+        
+        .reveal .slides section {
+            top: 0 !important;
+            padding: 20px 40px;
+            box-sizing: border-box;
+        }
+        
+        .reveal h1 { 
+            font-size: 2.2em; 
+            color: #1a1a1a;
+            font-weight: 700;
+            margin-bottom: 0.3em;
+        }
+        
+        .reveal h2 { 
+            font-size: 1.8em; 
+            color: #2c3e50;
+            font-weight: 600;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .reveal h3 { 
+            font-size: 1.4em; 
+            color: #34495e;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        
+        .reveal p, .reveal li { 
+            font-size: 0.9em; 
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+        
+        .reveal ul, .reveal ol {
+            margin: 10px 0;
+        }
+        
+        .reveal li {
+            margin: 8px 0;
+        }
+        
+        .reveal .small { 
+            font-size: 0.75em; 
+            color: #7f8c8d;
+        }
+        
+        .reveal .highlight { 
+            color: #e74c3c; 
+            font-weight: 600;
+        }
+        
+        .reveal table { 
+            font-size: 0.8em;
+            border-collapse: collapse;
+            width: 100%;
+            margin: 15px 0;
+        }
+        
+        .reveal table th {
+            background: #34495e;
+            color: white;
+            padding: 10px;
+            font-weight: 500;
+        }
+        
+        .reveal table td {
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+        }
+        
+        .reveal table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .reveal .math-box { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .reveal .info-box { 
+            background: #ecf0f1;
+            padding: 15px;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+            margin: 15px 0;
+        }
+        
+        .reveal .key-point { 
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin: 12px 0;
+            font-weight: 500;
+            box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
+        }
+        
+        .reveal .warning-box { 
+            background: #ffe5e5;
+            border-left: 4px solid #e74c3c;
+            padding: 12px 15px;
+            border-radius: 4px;
+            margin: 12px 0;
+            color: #c0392b;
+        }
+        
+        .reveal .timeline-item {
+            background: white;
+            border-left: 3px solid #3498db;
+            padding: 10px 15px;
+            margin: 10px 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        
+        .reveal .timeline-item strong {
+            color: #2980b9;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+        
+        .reveal .title-slide {
+            text-align: center;
+        }
+        
+        .reveal .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2em;
+            font-weight: 300;
+            margin-top: 15px;
+        }
+        
+        .reveal .author-info {
+            margin-top: 50px;
+            font-size: 0.9em;
+            color: #95a5a6;
+        }
+        
+        .reveal strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .reveal .check {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .reveal .cross {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .reveal .MathJax {
+            font-size: 0.95em !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- 표지 -->
+            <section class="title-slide">
+                <h1>행렬과 행렬식</h1>
+                <p class="subtitle">연산 방법과 특징</p>
+                <div class="author-info">
+                    <p>수학 탐구 모둠 연구</p>
+                    <p class="small">조원: [이름들]</p>
+                </div>
+            </section>
+
+            <!-- 목차 -->
+            <section>
+                <h2>목차</h2>
+                <ol style="line-height: 1.8;">
+                    <li>연구 동기 및 목적</li>
+                    <li>행렬의 역사</li>
+                    <li>행렬의 정의와 종류</li>
+                    <li>행렬 연산의 특징</li>
+                    <li>행렬식과 역행렬</li>
+                    <li>활용 사례</li>
+                    <li>결론</li>
+                </ol>
+            </section>
+
+            <!-- 1. 연구 동기 -->
+            <section>
+                <section>
+                    <h2>1. 연구 동기 및 목적</h2>
+                </section>
+                
+                <section>
+                    <h3>연구 동기</h3>
+                    <div class="key-point">
+                        연립방정식의 한계
+                    </div>
+                    <p style="margin-top: 20px;">미지수 3개, 4개... 계속 늘어나면 대입법, 소거법으로는 복잡</p>
+                    <div style="margin-top: 25px;">
+                        <p><span class="highlight">행렬을 사용하면</span></p>
+                        <ul>
+                            <li>체계적이고 간결한 표현 가능</li>
+                            <li>컴퓨터공학, 전기전자공학 전공의 핵심 도구</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>연구 목적</h3>
+                    <ul style="margin-top: 30px;">
+                        <li>행렬의 기본 연산 원리 이해</li>
+                        <li>일반 수 연산과의 차이점 분석</li>
+                        <li>행렬식과 역행렬의 관계 탐구</li>
+                        <li>실제 활용 사례 조사</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>탐구의 필요성</h3>
+                    <div class="warning-box">
+                        2015 개정 교육과정에서 행렬 단원 제외
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <p><strong>그러나</strong></p>
+                        <ul>
+                            <li>대학 이공계 전공에서 필수</li>
+                            <li>컴퓨터 그래픽스, AI, 회로 분석 등에 활용</li>
+                            <li>수학적 사고 확장에 도움</li>
+                        </ul>
+                    </div>
+                </section>
+            </section>
+
+            <!-- 2. 행렬의 역사 -->
+            <section>
+                <section>
+                    <h2>2. 행렬의 역사</h2>
+                </section>
+
+                <section>
+                    <h3>고대 ~ 18세기</h3>
+                    <div class="timeline-item">
+                        <strong>기원전 1세기 - 구장산술</strong>
+                        <p>연립방정식 계수를 사각형 형태로 배열 (가우스 소거법과 동일)</p>
+                    </div>
+                    <div class="timeline-item">
+                        <strong>17세기 - 라이프니츠</strong>
+                        <p>행렬식 개념 도입</p>
+                    </div>
+                    <div class="timeline-item">
+                        <strong>18세기 - 크래머</strong>
+                        <p>크래머 공식 발표</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>19세기 - 현대 행렬의 탄생</h3>
+                    <div class="timeline-item">
+                        <strong>야코비 (1841)</strong>
+                        <p>행렬식 이론 체계화</p>
+                    </div>
+                    <div class="key-point" style="margin-top: 20px;">
+                        <p><strong>실베스터</strong>: "행렬(Matrix)" 최초 명명</p>
+                        <p><strong>아서 케일리</strong>: 행렬 대수학 확립, 교환법칙 불성립 입증</p>
+                    </div>
+                </section>
+            </section>
+
+            <!-- 3. 행렬의 정의와 종류 -->
+            <section>
+                <section>
+                    <h2>3. 행렬의 정의와 종류</h2>
+                </section>
+
+                <section>
+                    <h3>행렬의 정의</h3>
+                    <p>수나 문자를 <span class="highlight">직사각형 형태로 배열</span>한 것</p>
+                    <div class="math-box">
+                        \[A = \begin{pmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{pmatrix}\]
+                        <p style="margin-top: 10px; opacity: 0.9; font-size: 0.9em;">m개 행 × n개 열 → m×n 행렬</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>행렬의 종류</h3>
+                    <table>
+                        <tr>
+                            <td><strong>정사각행렬</strong></td>
+                            <td>행 개수 = 열 개수</td>
+                        </tr>
+                        <tr>
+                            <td><strong>대각행렬</strong></td>
+                            <td>주대각선 외 모두 0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>단위행렬 I</strong></td>
+                            <td>대각선 1, 나머지 0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>영행렬 O</strong></td>
+                            <td>모든 원소가 0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>전치행렬 A<sup>T</sup></strong></td>
+                            <td>행과 열 교환</td>
+                        </tr>
+                    </table>
+                </section>
+            </section>
+
+            <!-- 4. 행렬 연산 -->
+            <section>
+                <section>
+                    <h2>4. 행렬 연산의 특징</h2>
+                </section>
+
+                <section>
+                    <h3>덧셈과 뺄셈</h3>
+                    <p>같은 크기의 행렬끼리만 가능</p>
+                    <div class="math-box">
+                        \[\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix} + \begin{pmatrix} 5 & 6 \\ 7 & 8 \end{pmatrix} = \begin{pmatrix} 6 & 8 \\ 10 & 12 \end{pmatrix}\]
+                    </div>
+                    <div class="info-box">
+                        <p><strong>교환법칙 성립:</strong> A + B = B + A</p>
+                        <p><strong>결합법칙 성립:</strong> (A + B) + C = A + (B + C)</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>스칼라 곱</h3>
+                    <p>모든 원소에 상수 곱하기</p>
+                    <div class="math-box">
+                        \[3 \times \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix} = \begin{pmatrix} 3 & 6 \\ 9 & 12 \end{pmatrix}\]
+                    </div>
+                </section>
+
+                <section>
+                    <h3>행렬 곱셈</h3>
+                    <div class="warning-box">
+                        A의 열 수 = B의 행 수 일 때만 가능
+                    </div>
+                    <div class="math-box">
+                        \[\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix} \times \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix} = \begin{pmatrix} 2 & 1 \\ 4 & 3 \end{pmatrix}\]
+                    </div>
+                    <p class="small">(1,1) 원소: 1×0 + 2×1 = 2</p>
+                </section>
+
+                <section>
+                    <h3>핵심: 교환법칙 불성립</h3>
+                    <div class="key-point">
+                        일반적으로 AB ≠ BA
+                    </div>
+                    <div class="math-box" style="margin-top: 15px;">
+                        \[A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}, \quad B = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}\]
+                        \[AB = \begin{pmatrix} 2 & 1 \\ 4 & 3 \end{pmatrix} \neq \begin{pmatrix} 3 & 4 \\ 1 & 2 \end{pmatrix} = BA\]
+                    </div>
+                </section>
+
+                <section>
+                    <h3>행렬 연산 vs 일반 수 연산</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>성질</th>
+                                <th>일반 수</th>
+                                <th>행렬</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>덧셈 교환법칙</td>
+                                <td class="check">성립</td>
+                                <td class="check">성립</td>
+                            </tr>
+                            <tr>
+                                <td>곱셈 교환법칙</td>
+                                <td class="check">성립</td>
+                                <td class="cross">불성립</td>
+                            </tr>
+                            <tr>
+                                <td>곱셈 결합법칙</td>
+                                <td class="check">성립</td>
+                                <td class="check">성립</td>
+                            </tr>
+                            <tr>
+                                <td>분배법칙</td>
+                                <td class="check">성립</td>
+                                <td class="check">성립</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </section>
+
+            <!-- 5. 행렬식과 역행렬 -->
+            <section>
+                <section>
+                    <h2>5. 행렬식과 역행렬</h2>
+                </section>
+
+                <section>
+                    <h3>행렬식 (Determinant)</h3>
+                    <p>정사각행렬에 대응하는 <span class="highlight">하나의 수</span></p>
+                    <div class="math-box">
+                        \[A = \begin{pmatrix} a & b \\ c & d \end{pmatrix} \quad \Rightarrow \quad \det(A) = ad - bc\]
+                    </div>
+                </section>
+
+                <section>
+                    <h3>행렬식의 기하학적 의미</h3>
+                    <div class="key-point">
+                        <p>2×2 행렬식의 절댓값 = 평행사변형의 넓이</p>
+                        <p>3×3 행렬식의 절댓값 = 평행육면체의 부피</p>
+                    </div>
+                    <div class="info-box" style="margin-top: 20px;">
+                        <p><strong>det(A) = 0 의 의미:</strong> 넓이/부피가 0 → 벡터들이 한 직선 또는 평면 위에 존재</p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>역행렬</h3>
+                    <p>AB = BA = I 를 만족하는 B = A<sup>-1</sup></p>
+                    <div class="math-box">
+                        \[A^{-1} = \frac{1}{\det(A)} \begin{pmatrix} d & -b \\ -c & a \end{pmatrix}\]
+                    </div>
+                    <div class="warning-box">
+                        det(A) ≠ 0 일 때만 역행렬 존재
+                    </div>
+                </section>
+
+                <section>
+                    <h3>연립방정식 풀이</h3>
+                    <div class="math-box">
+                        \[\begin{cases} 2x + 3y = 8 \\ x + 2y = 5 \end{cases} \quad \Rightarrow \quad \begin{pmatrix} 2 & 3 \\ 1 & 2 \end{pmatrix} \begin{pmatrix} x \\ y \end{pmatrix} = \begin{pmatrix} 8 \\ 5 \end{pmatrix}\]
+                    </div>
+                    <div class="info-box">
+                        <p>역행렬 이용: \(X = A^{-1}B = \begin{pmatrix} 1 \\ 2 \end{pmatrix}\)</p>
+                        <p>∴ x = 1, y = 2</p>
+                    </div>
+                </section>
+            </section>
+
+            <!-- 6. 활용 사례 -->
+            <section>
+                <section>
+                    <h2>6. 활용 사례</h2>
+                </section>
+
+                <section>
+                    <h3>컴퓨터 그래픽스</h3>
+                    <ul>
+                        <li>3D 물체의 <span class="highlight">회전, 이동, 크기 변환</span></li>
+                        <li>4×4 변환 행렬 (TRS Matrix) 사용</li>
+                        <li>게임 엔진의 핵심 기술</li>
+                    </ul>
+                    <div class="key-point" style="margin-top: 25px;">
+                        행렬 곱의 순서가 중요<br>
+                        x축 90° 회전 → y축 90° 회전 ≠ y축 → x축
+                    </div>
+                </section>
+
+                <section>
+                    <h3>전기회로 해석</h3>
+                    <ul>
+                        <li>키르히호프 법칙 (KVL, KCL) → 연립방정식</li>
+                        <li>행렬 Ax = b 로 표현</li>
+                        <li>역행렬로 체계적 풀이: x = A<sup>-1</sup>b</li>
+                    </ul>
+                    <p style="margin-top: 25px;">회로가 복잡할수록 행렬 방법의 장점이 두드러짐</p>
+                </section>
+
+                <section>
+                    <h3>기타 활용 분야</h3>
+                    <table>
+                        <tr>
+                            <td><strong>인공지능</strong></td>
+                            <td>가중치 행렬 연산</td>
+                        </tr>
+                        <tr>
+                            <td><strong>검색 엔진</strong></td>
+                            <td>PageRank 알고리즘</td>
+                        </tr>
+                        <tr>
+                            <td><strong>통계 및 데이터 분석</strong></td>
+                            <td>공분산 행렬</td>
+                        </tr>
+                        <tr>
+                            <td><strong>게임 개발</strong></td>
+                            <td>좌표 변환</td>
+                        </tr>
+                    </table>
+                </section>
+            </section>
+
+            <!-- 7. 결론 -->
+            <section>
+                <section>
+                    <h2>7. 결론</h2>
+                </section>
+
+                <section>
+                    <h3>탐구 결과</h3>
+                    <ol style="line-height: 1.8;">
+                        <li>행렬 덧셈은 교환·결합법칙 성립, <span class="highlight">곱셈은 교환법칙 불성립</span></li>
+                        <li>행렬식 ≠ 0 ↔ 역행렬 존재</li>
+                        <li>연립방정식을 X = A<sup>-1</sup>B로 체계적 풀이</li>
+                        <li>그래픽스, 회로, AI 등 다양한 분야에 활용</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h3>연구의 의의</h3>
+                    <div class="key-point" style="padding: 30px; text-align: center;">
+                        <p style="font-size: 1.1em;">행렬은 단순한 수의 배열이 아니라</p>
+                        <p style="font-size: 1.2em; margin-top: 15px;"><strong>독자적인 연산 체계</strong>를 가진 <strong>강력한 수학적 도구</strong></p>
+                    </div>
+                </section>
+
+                <section>
+                    <h3>한계 및 향후 과제</h3>
+                    <p><strong>연구의 한계</strong></p>
+                    <ul>
+                        <li>2×2, 3×3 중심 탐구</li>
+                        <li>고차 행렬, 가우스 소거법 미다룸</li>
+                    </ul>
+                    <p style="margin-top: 25px;"><strong>향후 개인 탐구 방향</strong></p>
+                    <ul>
+                        <li>PageRank, 컴퓨터 그래픽스 등 심화</li>
+                        <li>전공별 맞춤 활용 사례 연구</li>
+                    </ul>
+                </section>
+            </section>
+
+            <!-- 마무리 -->
+            <section class="title-slide">
+                <h1>감사합니다</h1>
+                <p style="margin-top: 40px;">질문이 있으시면 말씀해주세요</p>
+                <p class="small" style="margin-top: 80px;">방향키 ← → 로 슬라이드 이동 | ESC로 전체 보기</p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'slide',
+            slideNumber: true,
+            center: false,
+            width: 1200,
+            height: 800,
+            margin: 0.05,
+            minScale: 0.5,
+            maxScale: 1.5,
+        });
+    </script>
+</body>
+</html>
