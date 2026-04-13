@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+    :root {
+      --color-background-page: #f3f6fa;
+      --color-background-primary: #ffffff;
+      --color-background-secondary: #f7f9fc;
+      --color-background-info: #ecf4fb;
+      --color-background-warning: #ffe9e9;
+      --color-background-success: #e9f8ef;
+
+      --color-text-primary: #2c3e50;
+      --color-text-secondary: #6b7b8c;
+      --color-text-info: #1f5f8f;
+      --color-text-warning: #c0392b;
+      --color-text-success: #1f8d4c;
+
+      --color-border-secondary: #cad4e0;
+      --color-border-tertiary: #dfe6ef;
+
+      --border-radius-md: 10px;
+      --border-radius-lg: 14px;
+
+      --font-mono: 'Consolas', 'D2Coding', 'Fira Code', monospace;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--color-background-page);
+      color: var(--color-text-primary);
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 2.4rem;
+      font-size: 16px;
+    }
+
+    .part {
+      display: none;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .part.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0.65;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .part-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+      border-bottom: 3px solid #3498db;
+      padding-bottom: 8px;
+    }
+
+    .part-badge {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+      box-shadow: 0 3px 10px rgba(52, 152, 219, 0.25);
+    }
+
+    h2.part-title {
+      font-size: 1.45rem;
+      font-weight: 600;
+      margin: 0;
+      color: #2c3e50;
+    }
+
+    p {
+      line-height: 1.65;
+    }
+
+    .card {
+      background: var(--color-background-primary);
+      border: 1px solid var(--color-border-tertiary);
+      border-radius: var(--border-radius-lg);
+      padding: 1rem 1.2rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 14px rgba(44, 62, 80, 0.06);
+    }
+
+    .card-accent {
+      border-left: 4px solid #3498db;
+      border-radius: 0 10px 10px 0;
+      padding: 0.8rem 1rem;
+      background: #edf4fb;
+    }
+
+    .math-display {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: var(--border-radius-md);
+      padding: 0.75rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      margin: 0.5rem 0;
+      color: #fff;
+    }
+
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 1rem 0;
+    }
+
+    .grid3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 1rem 0;
+    }
+
+    .type-card {
+      background: var(--color-background-primary);
+      border-radius: var(--border-radius-md);
+      padding: 0.85rem;
+      border: 1px solid var(--color-border-tertiary);
+      box-shadow: 0 3px 10px rgba(44, 62, 80, 0.04);
+    }
+
+    .type-card .label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 4px;
+    }
+
+    .type-card .desc {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .matrix {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+
+    .matrix-inner {
+      display: grid;
+      gap: 3px;
+      padding: 4px 8px;
+      border-left: 2px solid #7f8c8d;
+      border-right: 2px solid #7f8c8d;
+    }
+
+    .matrix-inner span {
+      text-align: center;
+      min-width: 18px;
+      color: var(--color-text-primary);
+    }
+
+    .matrix-label {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .mat-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--color-border-tertiary);
+    }
+
+    .nav-btn {
+      background: #fff;
+      border: 1px solid var(--color-border-secondary);
+      border-radius: var(--border-radius-md);
+      padding: 8px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      color: var(--color-text-primary);
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: #f4f8fc;
+      box-shadow: 0 3px 8px rgba(44, 62, 80, 0.1);
+    }
+
+    .nav-btn:active {
+      transform: translateY(1px);
+    }
+
+    .nav-btn.primary {
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: #fff;
+      border-color: #2980b9;
+      font-weight: 600;
+    }
+
+    .nav-btn.primary:hover {
+      background: linear-gradient(135deg, #2f8fcd, #2677ad);
+    }
+
+    .progress-row {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      background: #fff;
+      border: 1px solid var(--color-border-tertiary);
+      border-radius: 999px;
+      padding: 8px 12px;
+      box-shadow: 0 2px 8px rgba(44, 62, 80, 0.06);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #c8d3df;
+      transition: background 0.2s;
+    }
+
+    .dot.active {
+      background: #3498db;
+    }
+
+    .dot.done {
+      background: #27ae60;
+    }
+
+    .highlight-box {
+      background: #ecf4fb;
+      border-left: 4px solid #3498db;
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      color: #2c3e50;
+      font-size: 14px;
+      margin: 0.75rem 0;
+    }
+
+    .warn-box {
+      background: #ffeaea;
+      border-left: 4px solid #e74c3c;
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      color: #c0392b;
+      font-size: 14px;
+      margin: 0.75rem 0;
+    }
+
+    .success-box {
+      background: #ecf8f0;
+      border-left: 4px solid #27ae60;
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      color: #1f8d4c;
+      font-size: 14px;
+      margin: 0.75rem 0;
+    }
+
+    .mult-grid {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+
+    .cell {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: var(--border-radius-md);
+      border: 1px solid var(--color-border-tertiary);
+      background: #fff;
+      cursor: pointer;
+      transition: all 0.18s;
+      color: var(--color-text-primary);
+    }
+
+    .cell:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(44, 62, 80, 0.08);
+    }
+
+    .cell.row-hl {
+      background: #e8f3fe;
+      border-color: #3498db;
+      color: #1f5f8f;
+    }
+
+    .cell.col-hl {
+      background: #eaf7e7;
+      border-color: #67a53d;
+      color: #2f6c12;
+    }
+
+    .cell.result-hl {
+      background: #eef0ff;
+      border-color: #6b61cc;
+      color: #453e9f;
+    }
+
+    .cell.result-active {
+      background: #534ab7;
+      color: #fff;
+      border-color: #534ab7;
+    }
+
+    .op-symbol {
+      font-size: 18px;
+      color: var(--color-text-secondary);
+      font-weight: 600;
+    }
+
+    .step-calc {
+      background: var(--color-background-secondary);
+      border-radius: var(--border-radius-md);
+      border: 1px solid var(--color-border-tertiary);
+      padding: 0.75rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--color-text-primary);
+      min-height: 52px;
+      margin: 0.5rem 0;
+      line-height: 1.8;
+    }
+
+    .step-btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .step-btn {
+      padding: 6px 14px;
+      font-size: 13px;
+      border-radius: var(--border-radius-md);
+      border: 1px solid var(--color-border-secondary);
+      background: #fff;
+      cursor: pointer;
+      color: var(--color-text-primary);
+    }
+
+    .step-btn:hover {
+      background: #f4f8fc;
+    }
+
+    .step-btn.active-btn {
+      background: #eef0ff;
+      border-color: #6b61cc;
+      color: #453e9f;
+      font-weight: 600;
+    }
+
+    .det-vis {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+      margin: 1rem 0;
+    }
+
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 6px 0;
+    }
+
+    .input-row label {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      min-width: 16px;
+      font-family: var(--font-mono);
+    }
+
+    .input-row input[type=range] {
+      flex: 1;
+    }
+
+    .input-row .val {
+      font-size: 13px;
+      font-family: var(--font-mono);
+      min-width: 24px;
+      color: var(--color-text-primary);
+    }
+
+    .det-result {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin: 0.5rem 0;
+    }
+
+    .det-meaning {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+    }
+
+    .use-item {
+      border: 1px solid var(--color-border-tertiary);
+      border-radius: var(--border-radius-md);
+      margin-bottom: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(44, 62, 80, 0.05);
+    }
+
+    .use-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      cursor: pointer;
+      background: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .use-header:hover {
+      background: #f5f9fd;
+    }
+
+    .use-body {
+      display: none;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      background: var(--color-background-secondary);
+      line-height: 1.7;
+      border-top: 1px solid var(--color-border-tertiary);
+    }
+
+    .use-body.open {
+      display: block;
+    }
+
+    .use-icon {
+      font-size: 16px;
+      width: 16px;
+    }
+
+    .chevron {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      transition: transform 0.2s;
+    }
+
+    .chevron.open {
+      transform: rotate(180deg);
+    }
+
+    @media (max-width: 900px) {
+      .wrap {
+        padding: 1.25rem 0.9rem 2rem;
+      }
+
+      .grid2,
+      .grid3,
+      .det-vis {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-row {
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <h2 class="sr-only">행렬 개념 단계별 학습 가이드</h2>
+
+  <!-- 진행도 표시 -->
+  <div class="progress-row" style="margin-bottom: 1.5rem;">
+    <span style="font-size: 13px; color: var(--color-text-secondary); margin-right: 4px;">진행도</span>
+    <div class="dot active" id="d0"></div>
+    <div class="dot" id="d1"></div>
+    <div class="dot" id="d2"></div>
+    <div class="dot" id="d3"></div>
+    <div class="dot" id="d4"></div>
+    <span style="font-size: 12px; color: var(--color-text-secondary); margin-left: 6px;" id="progress-label">1 / 5</span>
+  </div>
+
+  <!-- PART 1: 행렬의 개념 -->
+  <div class="part active" id="part-0">
+    <div class="part-header">
+      <span class="part-badge">Part 1</span>
+      <h2 class="part-title">행렬의 개념</h2>
+    </div>
+    <p style="color: var(--color-text-secondary); font-size: 14px; margin-bottom: 1rem;">
+      행렬이란 무엇인지, 왜 필요한지부터 시작해 봐요.
+    </p>
+
+    <div class="card">
+      <div style="font-weight: 500; margin-bottom: 8px; font-size: 14px;">
+        한 줄 정의
+      </div>
+      <div class="card-accent" style="border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;">
+        수나 문자를 <strong>직사각형 형태로 배열</strong>한 것을 <strong>행렬(Matrix)</strong>이라고 해요.<br>
+        가로 줄을 <strong>행(row)</strong>, 세로 줄을 <strong>열(column)</strong>이라고 하고,<br>
+        m개 행 × n개 열이면 <strong>m×n 행렬</strong>이라고 불러요.
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: 0.5rem;">
+      <div style="font-weight: 500; margin-bottom: 10px; font-size: 14px;">
+        2×2 행렬 예시
+      </div>
+      <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+        <div>
+          <div class="matrix-label">A (2×2 행렬)</div>
+          <div class="matrix">
+            <div class="matrix-inner" style="grid-template-columns: 1fr 1fr;">
+              <span style="color: #185FA5; font-weight: 500;">a₁₁</span>
+              <span style="color: #185FA5; font-weight: 500;">a₁₂</span>
+              <span style="color: #27500A; font-weight: 500;">a₂₁</span>
+              <span style="color: #27500A; font-weight: 500;">a₂₂</span>
+            </div>
+          </div>
+        </div>
+        <div style="font-size: 13px; color: var(--color-text-secondary); line-height: 1.9;">
+          <div><span style="color: #185FA5; font-weight: 500;">파란색</span> → 1행 원소</div>
+          <div><span style="color: #27500A; font-weight: 500;">초록색</span> → 2행 원소</div>
+          <div>aᵢⱼ = i행 j열 원소</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight-box">
+      왜 행렬이 필요할까요? 미지수가 3개, 4개로 늘어나는 연립방정식을 대입법/소거법으로 풀면 엄청 복잡해지는데, 행렬을 쓰면 <strong>체계적이고 간결하게</strong> 표현하고 풀 수 있어요.
+    </div>
+
+    <div class="card-accent" style="border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; margin-top: 0.5rem;">
+      <div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 6px;">
+        발표 포인트
+      </div>
+      <div style="font-size: 14px; color: var(--color-text-primary);">
+        "행렬은 숫자의 단순한 나열이 아니라, <strong>독자적인 연산 체계</strong>를 가진 수학적 도구입니다."
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <div></div>
+      <button class="nav-btn primary" onclick="goTo(1)">행렬의 종류 →</button>
+    </div>
+  </div>
+
+  <!-- PART 2: 행렬의 종류 -->
+  <div class="part" id="part-1">
+    <div class="part-header">
+      <span class="part-badge">Part 2</span>
+      <h2 class="part-title">행렬의 종류</h2>
+    </div>
+    <p style="color: var(--color-text-secondary); font-size: 14px; margin-bottom: 1rem;">
+      발표 자료에 나온 5가지 행렬 종류를 카드로 정리했어요.
+    </p>
+
+    <div class="grid2">
+      <div class="type-card">
+        <div class="label">정사각행렬</div>
+        <div class="desc">행 수 = 열 수</div>
+        <div class="matrix">
+          <div class="matrix-inner" style="grid-template-columns: 1fr 1fr 1fr;">
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+            <span>5</span>
+            <span>6</span>
+            <span>7</span>
+            <span>8</span>
+            <span>9</span>
+          </div>
+        </div>
+        <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 6px;">
+          3×3 예시
+        </div>
+      </div>
+
+      <div class="type-card">
+        <div class="label">대각행렬</div>
+        <div class="desc">주대각선 외 모두 0</div>
+        <div class="matrix">
+          <div class="matrix-inner" style="grid-template-columns: 1fr 1fr 1fr;">
+            <span style="color: #185FA5; font-weight: 500;">3</span>
+            <span>0</span>
+            <span>0</span>
+            <span>0</span>
+            <span style="color: #185FA5; font-weight: 500;">5</span>
+            <span>0</span>
+            <span>0</span>
+            <span>0</span>
+            <span style="color: #185FA5; font-weight: 500;">2</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="type-card">
+        <div class="label">단위행렬 I</div>
+        <div class="desc">대각선 1, 나머지 0</div>
+        <div class="matrix">
+          <div class="matrix-inner" style="grid-template-columns: 1fr 1fr;">
+            <span style="color: #27500A; font-weight: 500;">1</span>
+            <span>0</span>
+            <span>0</span>
+            <span style="color: #27500A; font-weight: 500;">1</span>
+          </div>
+        </div>
+        <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 6px;">
+          수의 1과 같은 역할
+        </div>
+      </div>
+
+      <div class="type-card">
+        <div class="label">영행렬 O</div>
+        <div class="desc">모든 원소가 0</div>
+        <div class="matrix">
+          <div class="matrix-inner" style="grid-template-columns: 1fr 1fr;">
+            <span>0</span>
+            <span>0</span>
+            <span>0</span>
+            <span>0</span>
+          </div>
+        </div>
+        <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 6px;">
+          수의 0과 같은 역할
+        </div>
+      </div>
+    </div>
+
+    <div class="type-card" style="margin-top: 0;">
+      <div class="label">전치행렬 Aᵀ</div>
+      <div class="desc">행과 열을 서로 교환</div>
+      <div style="display: flex; gap: 12px; align-items: center; margin-top: 6px; flex-wrap: wrap;">
+        <div>
+          <div style="font-size: 11px; color: var(--color-text-secondary); text-align: center; margin-bottom: 3px;">
+            A
+          </div>
+          <div class="matrix">
+            <div class="matrix-inner" style="grid-template-columns: 1fr 1fr 1fr;">
+              <span>1</span>
+              <span>2</span>
+              <span>3</span>
+              <span>4</span>
+              <span>5</span>
+              <span>6</span>
+            </div>
+          </div>
+          <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 3px;">
+            2×3
+          </div>
+        </div>
+        <div style="font-size: 18px; color: var(--color-text-secondary);">
+          →
+        </div>
+        <div>
+          <div style="font-size: 11px; color: var(--color-text-secondary); text-align: center; margin-bottom: 3px;">
+            Aᵀ
+          </div>
+          <div class="matrix">
+            <div class="matrix-inner" style="grid-template-columns: 1fr 1fr;">
+              <span>1</span>
+              <span>4</span>
+              <span>2</span>
+              <span>5</span>
+              <span>3</span>
+              <span>6</span>
+            </div>
+          </div>
+          <div style="font-size: 11px; color: var(--color-text-secondary); margin-top: 3px;">
+            3×2
+          </div>
+        </div>
+        <div style="font-size: 13px; color: var(--color-text-secondary);">
+          행↔열 교환됨
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn" onclick="goTo(0)">← 이전</button>
+      <button class="nav-btn primary" onclick="goTo(2)">행렬 곱셈 →</button>
+    </div>
+  </div>
+
+  <!-- PART 3: 행렬 곱셈 인터랙티브 -->
+  <div class="part" id="part-2">
+    <div class="part-header">
+      <span class="part-badge">Part 3</span>
+      <h2 class="part-title">행렬 곱셈</h2>
+    </div>
+    <p style="color: var(--color-text-secondary); font-size: 14px; margin-bottom: 0.75rem;">
+      결과 행렬의 원소를 눌러서 계산 과정을 확인해 보세요!
+    </p>
+
+    <div class="warn-box">
+      조건: A의 열 수 = B의 행 수 → 결과는 (A의 행 수) × (B의 열 수) 크기
+    </div>
+
+    <div id="mult-area">
+      <div class="mult-grid">
+        <div class="mat-wrap">
+          <div class="matrix-label">A (2×2)</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;" id="mat-a">
+            <div class="cell" id="a00">1</div>
+            <div class="cell" id="a01">2</div>
+            <div class="cell" id="a10">3</div>
+            <div class="cell" id="a11">4</div>
+          </div>
+        </div>
+        <div class="op-symbol">×</div>
+        <div class="mat-wrap">
+          <div class="matrix-label">B (2×2)</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;" id="mat-b">
+            <div class="cell" id="b00">0</div>
+            <div class="cell" id="b01">1</div>
+            <div class="cell" id="b10">1</div>
+            <div class="cell" id="b11">0</div>
+          </div>
+        </div>
+        <div class="op-symbol">=</div>
+        <div class="mat-wrap">
+          <div class="matrix-label">C = AB (클릭!)</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;" id="mat-c">
+            <div class="cell result-hl" id="c00" onclick="showStep(0,0)" style="cursor: pointer;">2</div>
+            <div class="cell result-hl" id="c01" onclick="showStep(0,1)" style="cursor: pointer;">1</div>
+            <div class="cell result-hl" id="c10" onclick="showStep(1,0)" style="cursor: pointer;">4</div>
+            <div class="cell result-hl" id="c11" onclick="showStep(1,1)" style="cursor: pointer;">3</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-calc" id="step-display">
+        ↑ 결과 행렬의 원소를 클릭하면 계산 과정이 여기에 나타나요.
+      </div>
+
+      <div class="step-btn-row">
+        <button class="step-btn" onclick="showStep(0,0)" id="btn00">C(1,1)</button>
+        <button class="step-btn" onclick="showStep(0,1)" id="btn01">C(1,2)</button>
+        <button class="step-btn" onclick="showStep(1,0)" id="btn10">C(2,1)</button>
+        <button class="step-btn" onclick="showStep(1,1)" id="btn11">C(2,2)</button>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: 1rem;">
+      <div style="font-weight: 500; font-size: 14px; margin-bottom: 8px;">
+        핵심: 교환법칙 불성립!
+      </div>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+        <div>
+          <div style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px;">
+            AB =
+          </div>
+          <div class="matrix">
+            <div class="matrix-inner" style="grid-template-columns: 1fr 1fr;">
+              <span style="color: #185FA5; font-weight: 500;">2</span>
+              <span style="color: #185FA5; font-weight: 500;">1</span>
+              <span style="color: #185FA5; font-weight: 500;">4</span>
+              <span style="color: #185FA5; font-weight: 500;">3</span>
+            </div>
+          </div>
+        </div>
+        <div style="font-size: 20px; color: var(--color-text-secondary);">
+          ≠
+        </div>
+        <div>
+          <div style="font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px;">
+            BA =
+          </div>
+          <div class="matrix">
+            <div class="matrix-inner" style="grid-template-columns: 1fr 1fr;">
+              <span style="color: #3C3489; font-weight: 500;">3</span>
+              <span style="color: #3C3489; font-weight: 500;">4</span>
+              <span style="color: #3C3489; font-weight: 500;">1</span>
+              <span style="color: #3C3489; font-weight: 500;">2</span>
+            </div>
+          </div>
+        </div>
+        <div style="font-size: 13px; color: var(--color-text-secondary); max-width: 160px;">
+          순서가 바뀌면 결과도 달라져요!
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn" onclick="goTo(1)">← 이전</button>
+      <button class="nav-btn primary" onclick="goTo(3)">행렬식 →</button>
+    </div>
+  </div>
+
+  <!-- PART 4: 행렬식 -->
+  <div class="part" id="part-3">
+    <div class="part-header">
+      <span class="part-badge">Part 4</span>
+      <h2 class="part-title">행렬식 (Determinant)</h2>
+    </div>
+    <p style="color: var(--color-text-secondary); font-size: 14px; margin-bottom: 1rem;">
+      슬라이더로 값을 바꿔보며 행렬식이 어떻게 변하는지 확인해 보세요!
+    </p>
+
+    <div class="card">
+      <div style="font-weight: 500; font-size: 14px; margin-bottom: 8px;">
+        정의
+      </div>
+      정사각행렬에 대응하는 <strong>하나의 수</strong>예요.<br>
+      <div class="math-display" style="margin-top: 8px;">
+        A = [[a, b], [c, d]]  →  det(A) = ad − bc
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: 0.5rem;">
+      <div style="font-weight: 500; font-size: 14px; margin-bottom: 12px;">
+        직접 계산해 보기
+      </div>
+      <div class="det-vis">
+        <div>
+          <div class="input-row">
+            <label>a</label>
+            <input type="range" min="-5" max="5" value="3" id="sl-a" oninput="updateDet()">
+            <span class="val" id="v-a">3</span>
+          </div>
+          <div class="input-row">
+            <label>b</label>
+            <input type="range" min="-5" max="5" value="1" id="sl-b" oninput="updateDet()">
+            <span class="val" id="v-b">1</span>
+          </div>
+          <div class="input-row">
+            <label>c</label>
+            <input type="range" min="-5" max="5" value="2" id="sl-c" oninput="updateDet()">
+            <span class="val" id="v-c">2</span>
+          </div>
+          <div class="input-row">
+            <label>d</label>
+            <input type="range" min="-5" max="5" value="4" id="sl-d" oninput="updateDet()">
+            <span class="val" id="v-d">4</span>
+          </div>
+        </div>
+        <div>
+          <div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 6px;">
+            현재 행렬
+          </div>
+          <div class="matrix" id="det-matrix-display">
+            <div class="matrix-inner" style="grid-template-columns: 1fr 1fr;" id="det-cells">
+              <span id="dc-a">3</span>
+              <span id="dc-b">1</span>
+              <span id="dc-c">2</span>
+              <span id="dc-d">4</span>
+            </div>
+          </div>
+          <div style="font-size: 13px; color: var(--color-text-secondary); margin-top: 12px;" id="det-formula-text">
+            = 3×4 − 1×2
+          </div>
+          <div class="det-result" id="det-result-val">
+            = 10
+          </div>
+          <div class="det-meaning" id="det-meaning-text">
+            역행렬이 존재해요
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: 0.5rem;">
+      <div style="font-weight: 500; font-size: 14px; margin-bottom: 8px;">
+        기하학적 의미
+      </div>
+      <div class="grid2" style="margin: 0;">
+        <div style="background: var(--color-background-info); border-radius: var(--border-radius-md); padding: 0.75rem; font-size: 13px; color: var(--color-text-info);">
+          <strong>2×2 행렬식 절댓값</strong><br>= 평행사변형의 넓이
+        </div>
+        <div style="background: var(--color-background-success); border-radius: var(--border-radius-md); padding: 0.75rem; font-size: 13px; color: var(--color-text-success);">
+          <strong>3×3 행렬식 절댓값</strong><br>= 평행육면체의 부피
+        </div>
+      </div>
+      <div class="warn-box" style="margin-top: 0.75rem; margin-bottom: 0;">
+        det(A) = 0 이면? → 넓이/부피가 0 → 벡터들이 한 직선/평면 위에 있음 → 역행렬 없음
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn" onclick="goTo(2)">← 이전</button>
+      <button class="nav-btn primary" onclick="goTo(4)">활용 사례 →</button>
+    </div>
+  </div>
+
+  <!-- PART 5: 활용 사례 -->
+  <div class="part" id="part-4">
+    <div class="part-header">
+      <span class="part-badge">Part 5</span>
+      <h2 class="part-title">활용 사례</h2>
+    </div>
+    <p style="color: var(--color-text-secondary); font-size: 14px; margin-bottom: 1rem;">
+      항목을 눌러서 각 분야 설명을 확인해 보세요!
+    </p>
+
+    <div class="use-item">
+      <div class="use-header" onclick="toggleUse(this)">
+        <span>컴퓨터 그래픽스 (3D 변환)</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="use-body">
+        3D 물체의 <strong>회전, 이동, 크기 변환</strong>을 4×4 변환 행렬(TRS Matrix)로 표현해요.<br><br>
+        발표 핵심 포인트: <em>"행렬 곱의 순서가 중요합니다. x축 90° 회전 후 y축 90° 회전 ≠ y축 후 x축 회전 — 이게 바로 교환법칙이 불성립하는 실제 사례입니다."</em><br><br>
+        게임 엔진(Unity, Unreal 등)의 핵심 기술이기도 해요.
+      </div>
+    </div>
+
+    <div class="use-item">
+      <div class="use-header" onclick="toggleUse(this)">
+        <span>전기회로 해석 (키르히호프 법칙)</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="use-body">
+        KVL, KCL(키르히호프 법칙)을 적용하면 복잡한 회로도 연립방정식으로 표현돼요.<br><br>
+        이걸 <strong>Ax = b</strong> 형태의 행렬 방정식으로 쓰고, 역행렬로 풀면 <strong>x = A⁻¹b</strong>.<br><br>
+        회로가 복잡할수록 행렬 방법의 장점이 더욱 두드러져요.
+      </div>
+    </div>
+
+    <div class="use-item">
+      <div class="use-header" onclick="toggleUse(this)">
+        <span>인공지능 (AI / 딥러닝)</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="use-body">
+        신경망의 각 층에서 <strong>가중치 행렬</strong>을 곱해서 데이터를 변환해요.<br><br>
+        수백만 개의 파라미터를 효율적으로 처리하려면 행렬 연산이 필수예요. GPU가 행렬 연산에 최적화되어 있는 이유도 여기에 있어요.
+      </div>
+    </div>
+
+    <div class="use-item">
+      <div class="use-header" onclick="toggleUse(this)">
+        <span>검색 엔진 (PageRank)</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="use-body">
+        구글의 PageRank 알고리즘은 웹 페이지 간 링크 관계를 <strong>전이 행렬</strong>로 표현해요.<br><br>
+        행렬의 고유벡터를 구해서 각 페이지의 중요도(순위)를 계산하는 방식이에요.
+      </div>
+    </div>
+
+    <div class="use-item">
+      <div class="use-header" onclick="toggleUse(this)">
+        <span>통계 및 데이터 분석</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="use-body">
+        변수들 사이의 관계를 <strong>공분산 행렬</strong>로 나타내요.<br><br>
+        주성분 분석(PCA) 같은 차원 축소 기법도 행렬 연산에 기반해요.
+      </div>
+    </div>
+
+    <div class="success-box" style="margin-top: 1rem;">
+      5개 파트 완료! 이제 발표 흐름이 잡혔나요? 궁금한 부분이 있으면 언제든 질문해 주세요.
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-btn" onclick="goTo(3)">← 이전</button>
+      <button class="nav-btn primary" onclick="goTo(0)">처음으로 돌아가기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== 페이지 네비게이션 =====
+  var currentPart = 0;
+  var totalParts = 5;
+
+  function goTo(n) {
+    var targetIndex = parseInt(n, 10);
+    if (isNaN(targetIndex)) return;
+    targetIndex = Math.max(0, Math.min(totalParts - 1, targetIndex));
+
+    var currentEl = document.getElementById('part-' + currentPart);
+    if (currentEl) currentEl.classList.remove('active');
+
+    var dots = document.querySelectorAll('.dot');
+    for (var i = 0; i < dots.length; i++) {
+      dots[i].className = 'dot';
+      if (i < targetIndex) dots[i].classList.add('done');
+      if (i === targetIndex) dots[i].classList.add('active');
+    }
+
+    currentPart = targetIndex;
+
+    var targetEl = document.getElementById('part-' + currentPart);
+    if (targetEl) targetEl.classList.add('active');
+
+    var progressLabel = document.getElementById('progress-label');
+    if (progressLabel) {
+      progressLabel.textContent = (currentPart + 1) + ' / ' + totalParts;
+    }
+  }
+
+  // ===== 행렬 곱셈 데이터 =====
+  var A = [[1, 2], [3, 4]];
+  var B = [[0, 1], [1, 0]];
+
+  function getC(i, j) {
+    return A[i][0] * B[0][j] + A[i][1] * B[1][j];
+  }
+
+  // ===== 행렬 곱셈 하이라이트 =====
+  function clearHighlight() {
+    var ids = ['a00', 'a01', 'a10', 'a11', 'b00', 'b01', 'b10', 'b11', 'c00', 'c01', 'c10', 'c11'];
+    for (var k = 0; k < ids.length; k++) {
+      var el = document.getElementById(ids[k]);
+      if (!el) continue;
+      el.className = 'cell';
+      if (ids[k].charAt(0) === 'c') el.classList.add('result-hl');
+    }
+
+    var btns = document.querySelectorAll('.step-btn');
+    for (var b = 0; b < btns.length; b++) {
+      btns[b].classList.remove('active-btn');
+    }
+  }
+
+  function showStep(i, j) {
+    if (i < 0 || i > 1 || j < 0 || j > 1) return;
+    clearHighlight();
+
+    function addClass(id, cls) {
+      var el = document.getElementById(id);
+      if (el) el.classList.add(cls);
+    }
+
+    addClass('a' + i + '0', 'row-hl');
+    addClass('a' + i + '1', 'row-hl');
+    addClass('b0' + j, 'col-hl');
+    addClass('b1' + j, 'col-hl');
+
+    var resultCell = document.getElementById('c' + i + j);
+    if (resultCell) resultCell.className = 'cell result-active';
+
+    var r = i + 1;
+    var c = j + 1;
+    var v = getC(i, j);
+    var stepDisplay = document.getElementById('step-display');
+    if (stepDisplay) {
+      stepDisplay.innerHTML =
+        'C(' + r + ',' + c + ') = A(' + r + ',1) × B(1,' + c + ') + A(' + r + ',2) × B(2,' + c + ')<br>' +
+        '         = ' + A[i][0] + ' × ' + B[0][j] + ' + ' + A[i][1] + ' × ' + B[1][j] + '<br>' +
+        '         = ' + (A[i][0] * B[0][j]) + ' + ' + (A[i][1] * B[1][j]) + ' = <strong>' + v + '</strong>';
+    }
+
+    var btn = document.getElementById('btn' + i + '' + j);
+    if (btn) btn.classList.add('active-btn');
+  }
+
+  function getSliderValue(id, fallback) {
+    var el = document.getElementById(id);
+    if (!el) return fallback;
+    var v = parseInt(el.value, 10);
+    return isNaN(v) ? fallback : v;
+  }
+
+  function setText(id, value) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
+
+  // ===== 행렬식(Determinant) 계산 =====
+  function updateDet() {
+    var a = getSliderValue('sl-a', 3);
+    var b = getSliderValue('sl-b', 1);
+    var c = getSliderValue('sl-c', 2);
+    var d = getSliderValue('sl-d', 4);
+
+    setText('v-a', a);
+    setText('v-b', b);
+    setText('v-c', c);
+    setText('v-d', d);
+
+    setText('dc-a', a);
+    setText('dc-b', b);
+    setText('dc-c', c);
+    setText('dc-d', d);
+
+    var det = a * d - b * c;
+    setText('det-formula-text', '= ' + a + '×' + d + ' − ' + b + '×' + c);
+    setText('det-result-val', '= ' + det);
+
+    var meaning = document.getElementById('det-meaning-text');
+    if (!meaning) return;
+
+    if (det === 0) {
+      meaning.textContent = '역행렬이 존재하지 않아요 (특이행렬)';
+      meaning.style.color = 'var(--color-text-warning)';
+    } else {
+      meaning.textContent = '역행렬이 존재해요 (|det| = ' + Math.abs(det) + ')';
+      meaning.style.color = 'var(--color-text-success)';
+    }
+  }
+
+  // ===== 활용 사례 아코디언 =====
+  function toggleUse(header) {
+    if (!header) return;
+    var body = header.nextElementSibling;
+    if (!body) return;
+
+    var chevron = header.querySelector('.chevron');
+    body.classList.toggle('open');
+    if (chevron) chevron.classList.toggle('open');
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    updateDet();
+  });
+</script>
+
+</body>
+</html>
